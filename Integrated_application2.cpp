@@ -1,91 +1,129 @@
 /*
-	ÈÎÒâ¸ø³öÒ»×é¹Ø¼ü×Ö£¨¹Ø¼ü×ÖµÄ¸öÊıºÍÖµÔÚÔËĞĞÊ±ÓÉ¼üÅÌÊäÈë)
-	·Ö±ğ²ÉÓÃÖ±½Ó²åÈëÅÅĞò¡¢Ï£¶ûÅÅĞòºÍ¿ìËÙÅÅĞòËã·¨¶ÔÆä½øĞĞÅÅĞò,
-	²¢Êä³öÃ¿¸öÅÅĞòËã·¨µÃµ½µÄĞòÁĞµ½Ò»¸öÉè¼ÆµÄ¹şÏ£±íÖĞ,
-	²¢¶ÔÆä½øĞĞ¹şÏ£²éÕÒ¡£ 
+	ä»»æ„ç»™å‡ºä¸€ç»„å…³é”®å­—ï¼ˆå…³é”®å­—çš„ä¸ªæ•°å’Œå€¼åœ¨è¿è¡Œæ—¶ç”±é”®ç›˜è¾“å…¥)
+	åˆ†åˆ«é‡‡ç”¨ç›´æ¥æ’å…¥æ’åºã€å¸Œå°”æ’åºå’Œå¿«é€Ÿæ’åºç®—æ³•å¯¹å…¶è¿›è¡Œæ’åº,
+	å¹¶è¾“å‡ºæ¯ä¸ªæ’åºç®—æ³•å¾—åˆ°çš„åºåˆ—åˆ°ä¸€ä¸ªè®¾è®¡çš„å“ˆå¸Œè¡¨ä¸­,
+	å¹¶å¯¹å…¶è¿›è¡Œå“ˆå¸ŒæŸ¥æ‰¾ã€‚ 
 */
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
 #define manx 1000
-#define P 13	//´ËÊıÓÃÓÚÉè¼ÆÈ¡Ä£¹şÏ£º¯Êı£¬È¡Öµ¸ù¾İÊı¾İµÄ´óĞ¡½øĞĞĞŞ¸Ä£¬²âÊÔ·½±ãÄ¬ÈÏ15×éÊı¾İ 
-//×Ô¶¨Òå¹Ø¼ü×ÖÀàĞÍ
+#define P 13	//æ­¤æ•°ç”¨äºè®¾è®¡å–æ¨¡å“ˆå¸Œå‡½æ•°ï¼Œå–å€¼æ ¹æ®æ•°æ®çš„å¤§å°è¿›è¡Œä¿®æ”¹ï¼Œæµ‹è¯•æ–¹ä¾¿é»˜è®¤15ç»„æ•°æ® 
+//è‡ªå®šä¹‰å…³é”®å­—ç±»å‹
 typedef int KeyType;
-//×Ô¶¨ÒåÆäËû¹Ø¼ü×ÖÀàĞÍ
+//è‡ªå®šä¹‰å…¶ä»–å…³é”®å­—ç±»å‹
 typedef int OtherKeyType;
-//×Ô¶¨ÒåÊı¾İÀàĞÍ
+//è‡ªå®šä¹‰æ•°æ®ç±»å‹
 typedef struct vnode{
 	KeyType key;
-	bool falg;
-	OtherKeyType otherKey;	//´ıÓÃÀ©Õ¹²ÎÊı 
-	struct vnode *next;
+	bool falg;				//åˆ¤æ–­å“ˆå¸Œå†²çª 
+	OtherKeyType otherKey;	//å¾…ç”¨æ‰©å±•å‚æ•° 
+	struct vnode *next;		//ç•™ä½œè®¾è®¡å“ˆå¸Œè¡¨å‡½æ•°ä½¿ç”¨ 
 }DataType;
-//¶¨ÒåË³Ğò±í²éÕÒ½á¹¹
+//å®šä¹‰é¡ºåºè¡¨æŸ¥æ‰¾ç»“æ„
 typedef struct {
-	DataType elem[manx + 1];	//Ê×¿Õ¼ä²»Ê¹ÓÃ 
-	int length;
+	DataType elem[manx + 1];	//é¦–ç©ºé—´ä¸ä½¿ç”¨ ï¼Œç•™ä½œç›‘ç£ç¨  
+	int length;					//çº¿æ€§è¡¨çš„é•¿åº¦ 
 }LinearTable; 
-//¶¨Òå¹şÏ£±í´æ´¢½á¹¹ÓÃÀ´Éè¼Æ¹şÏ£²éÕÒ
+//å®šä¹‰å“ˆå¸Œè¡¨å­˜å‚¨ç»“æ„ç”¨æ¥è®¾è®¡å“ˆå¸ŒæŸ¥æ‰¾
 typedef struct node {
-	DataType elem[manx + 1];	//Ê×¿Õ¼ä²»Ê¹ÓÃ 
-	int length;
+	DataType elem[manx + 1];	//é¦–ç©ºé—´ä¸ä½¿ç”¨ ï¼Œç•™ä½œç›‘ç£ç¨ 
+	int length;					//å“ˆå¸Œè¡¨çš„çº¿æ€§è¡¨éƒ¨åˆ†é•¿åº¦ 
 }HashTable;
-//ÉùÃ÷º¯Êı(ÅÅĞòËã·¨È«ÊÇ´ÓĞ¡µ½´óÓĞĞò)
-void print_LinearTable(LinearTable *Table);	//Êä³öLinearTable±í²âÊÔº¯Êı 
-void print_HashTable(HashTable *Table);		//Êä³öHashTable±í²âÊÔº¯Êı 
-int  Hash(int d);	//È¡Ä£¹şÏ£º¯ÊıÉè¼Æ
-void StraightInsertionSort(LinearTable *Table,int low);	//Ö±½Ó²åÈëÅÅĞò
-void ShellSort(LinearTable *Table,int gaps[],int t);	//ShellÅÅĞò
+//å£°æ˜å‡½æ•°(æ’åºç®—æ³•å…¨æ˜¯ä»å°åˆ°å¤§æœ‰åº)
+void print_LinearTable(LinearTable *Table);	//è¾“å‡ºLinearTableè¡¨æµ‹è¯•å‡½æ•° 
+void print_HashTable(HashTable *Table);		//è¾“å‡ºHashTableè¡¨æµ‹è¯•å‡½æ•° 
+int  Hash(int d);	//å–æ¨¡å“ˆå¸Œå‡½æ•°è®¾è®¡
+void StraightInsertionSort(LinearTable *Table);	//ç›´æ¥æ’å…¥æ’åº
+void ShellSort(LinearTable *Table,int gaps[],int t);	//Shellæ’åº
 void ShellInsert(LinearTable *Table,int gap);
-int  QuickSort1(LinearTable *Table,int low,int high);	//Ò»ÌË¿ìËÙÅÅĞò
-void QuickSort(LinearTable *Table,int low,int high);	//¿ìËÙÅÅĞò
-void HashInit(HashTable *Table);	//¹şÏ£³õÊ¼»¯ 
-void HashInsert(HashTable *Table,KeyType key);	//¹şÏ£²åÈë 
-int  HashSearch(HashTable *Table,KeyType key);	//Ï£¶û²éÕÒ
+void QuickSort(LinearTable *Table,int low,int high);	//å¿«é€Ÿæ’åº
+void HashInit(HashTable *Table);	//å“ˆå¸Œåˆå§‹åŒ– 
+void HashInsert(HashTable *Table,KeyType key);	//å“ˆå¸Œæ’å…¥ 
+int  HashSearch(HashTable *Table,KeyType key);	//å¸Œå°”æŸ¥æ‰¾
+int FLAG = 0;
 int main()
 {
 	freopen("input6.txt","r",stdin);
-	int i,gaps[3] = {5,3,1},t = 3;
+	int i,gaps[3] = {5,3,1};
 	KeyType key;
-	LinearTable Table;
-	Table.length = 15;
-	//Ö±½Ó²åÈëÅÅĞò²âÊÔ 
-	for(i = 1; i <= 15; i++)
+	LinearTable *Linear_Table;
+	HashTable   *Hash_Table;
+	Linear_Table = (LinearTable *) malloc (sizeof(LinearTable));
+	Hash_Table   = (HashTable  *) malloc (sizeof(HashTable));
+	Linear_Table->length = 15;		//æµ‹è¯•ç”¨ä¾‹ 
+	Hash_Table->length = 15;			//æµ‹è¯•ç”¨ä¾‹ 
+	//ç›´æ¥æ’å…¥æ’åºæµ‹è¯• 
+	printf("ç›´æ¥æ’å…¥æ’åºæµ‹è¯•\n");
+	for(i = 1; i <= Linear_Table->length; i++)
 	{
 		scanf("%d",&key);
-		Table.elem[i].key = key;
+		Linear_Table->elem[i].key = key;
 	}
-	StraightInsertionSort(&Table,2);
-	print_LinearTable(&Table); 
+	print_LinearTable(Linear_Table); 
 	printf("\n");
-	//ShellÅÅĞò²âÊÔ 
-	for(i = 1; i <= 15; i++)
+	StraightInsertionSort(Linear_Table);
+	print_LinearTable(Linear_Table); 
+	printf("\n");
+	//Shellæ’åºæµ‹è¯•
+	printf("Shellæ’åºæµ‹è¯•\n");
+	printf("FLAG = %d\n",FLAG);
+	for(i = 1; i <= Linear_Table->length; i++)
 	{
 		scanf("%d",&key);
-		Table.elem[i].key = key;
+		Linear_Table->elem[i].key = key;
 	}
-	ShellSort(&Table,gaps,t); 
-	print_LinearTable(&Table); 
+	print_LinearTable(Linear_Table); 
 	printf("\n");
-	//¿ìËÙÅÅĞò²âÊÔ 
-	for(i = 1; i <= 15; i++)
+	ShellSort(Linear_Table,gaps,3); 
+	//ShellInsert(Linear_Table,1);
+		//if(FLAG == 2)
+	printf("FLAG = %d\n",FLAG);
+	print_LinearTable(Linear_Table); 
+	printf("\n");
+	//å¿«é€Ÿæ’åºæµ‹è¯• 
+	printf("å¿«é€Ÿæ’åºæµ‹è¯•\n");
+	for(i = 1; i <= Linear_Table->length; i++)
 	{
 		scanf("%d",&key);
-		Table.elem[i].key = key;
+		Linear_Table->elem[i].key = key;
 	}
-	QuickSort(&Table,1,15);
-	print_LinearTable(&Table); 
+	print_LinearTable(Linear_Table); 
 	printf("\n");
+	QuickSort(Linear_Table,1,15);
+	print_LinearTable(Linear_Table); 
+	printf("\n");
+	printf("å®Œæˆæµ‹è¯•\n");
+	printf("å“ˆå¸Œå‡½æ•°æµ‹è¯•å¼€å§‹\n");
+	HashInit(Hash_Table);	//å“ˆå¸Œåˆå§‹åŒ– 
+	for(i = 1; i <= Hash_Table->length; i++)
+	{
+		scanf("%d",&key);
+		HashInsert(Hash_Table,key);
+	}
+	printf("è¾“å‡ºè®¾è®¡çš„å“ˆå¸Œè¡¨\n"); 
+	print_HashTable(Hash_Table);
+	printf("\nè¿›è¡ŒæŸ¥æ‰¾\n");
+	for(i = 1; i <= Hash_Table->length; i++)
+	{
+		if(HashSearch(Hash_Table,i) == 1)
+		{
+			printf("%dåœ¨å“ˆå¸Œè¡¨ä¸­\n",i);
+		}
+		else
+			printf("%dä¸åœ¨å“ˆå¸Œè¡¨ä¸­\n",i);
+	}
+	
 	return 0;
 }
-int Hash(int d)	//È¡Ä£¹şÏ£º¯ÊıÉè¼Æ
+int Hash(int d)	//å–æ¨¡å“ˆå¸Œå‡½æ•°è®¾è®¡
 {
 	return (d % P); 
 }
-void StraightInsertionSort(LinearTable *Table,int low)	//Ö±½Ó²åÈëÅÅĞò£¬low±íÊ¾´ÓÊ²Ã´µØ·½ÓĞĞò
+void StraightInsertionSort(LinearTable *Table)	//ç›´æ¥æ’å…¥æ’åºï¼Œlowè¡¨ç¤ºä»ä»€ä¹ˆåœ°æ–¹æœ‰åº
 {
 	int i,j;
-	for(i = low; low <= Table->length; low++)
+	for(i = 2; i <= Table->length; i++)
 	{
 		Table->elem[0] = Table->elem[i]; 
 		j = i - 1;
@@ -97,13 +135,16 @@ void StraightInsertionSort(LinearTable *Table,int low)	//Ö±½Ó²åÈëÅÅĞò£¬low±íÊ¾´Ó
 		Table->elem[j + 1] = Table->elem[0];
 	} 
 }
-void ShellSort(LinearTable *Table,int gaps[],int t)	//ShellÅÅĞò
+void ShellSort(LinearTable *Table,int gaps[],int t)	//Shellæ’åº
 {
 	int k;
 	for(k = 0; k < t; k++)
+	{
 		ShellInsert(Table,gaps[k]);
-} 
-void ShellInsert(LinearTable *Table,int gap)	//Shellµ¥´Î²åÈëÅÅĞò 
+		//printf("%d\n",gaps[k]);
+	}
+}
+void ShellInsert(LinearTable *Table,int gap)	//Shellå•æ¬¡æ’å…¥æ’åº 
 {
 	int i,j;
 	for(i = gap + 1; i <= Table->length; i++)
@@ -111,51 +152,52 @@ void ShellInsert(LinearTable *Table,int gap)	//Shellµ¥´Î²åÈëÅÅĞò
 		if(Table->elem[i].key < Table->elem[i - gap].key)
 		{
 			Table->elem[0] = Table->elem[i];
-			for(j = i - gap; j > 0 && Table->elem[0].key > Table->elem[j].key; j -= gap)
+			for(j = i - gap; j > 0 && Table->elem[0].key < Table->elem[j].key; j -= gap)
 			{
 				Table->elem[j + gap] = Table->elem[j];
 			} 
 			Table->elem[j + gap] = Table->elem[0]; 
 		}
 	}
+	FLAG++;
 }
-int QuickSort1(LinearTable *Table,int low,int high)	//Ò»ÌË¿ìËÙÅÅĞò
+
+void QuickSort(LinearTable *Table,int low,int high)	//å¿«é€Ÿæ’åº
 {
-	KeyType pivotkey;
 	Table->elem[0] = Table->elem[low];
-	pivotkey = Table->elem[low].key;
-	while(low < high)
+	int i,j;
+	i = low;
+	j = high;
+	if(i < j)
 	{
-		while(low < high && Table->elem[high].key >= high)
-			high--;
-		Table->elem[low] = Table->elem[high];
-		while(low < high && Table->elem[low].key <= pivotkey)
-			low++;
-		Table->elem[high] = Table->elem[low];
-	} 
-	Table->elem[low] = Table->elem[0];
-	return low;
-}
-void QuickSort(LinearTable *Table,int low,int high)	//¿ìËÙÅÅĞò
-{
-	int pivotloc;
-	if(low < high)
-	{
-		pivotloc = QuickSort1(Table,low,high);
-		QuickSort(Table,low,pivotloc - 1);
-		QuickSort(Table,pivotloc - 1,high);
+		while(i < j && Table->elem[j].key >= Table->elem[0].key)
+		{
+			j--;
+		}
+		if(i < j)
+			Table->elem[i++] = Table->elem[j];
+		while(i < j && Table->elem[i].key < Table->elem[0].key)
+		{
+			i++;
+		}
+		if(i < j)
+			Table->elem[j--] = Table->elem[i];
+		Table->elem[i] = Table->elem[0];
+		QuickSort(Table,low,i - 1);
+		QuickSort(Table,i + 1,high);
 	}
 } 
-void HashInit(HashTable *Table)	//¹şÏ£³õÊ¼»¯ 
+void HashInit(HashTable *Table)	//å“ˆå¸Œåˆå§‹åŒ– 
 {
 	int i;
-	for(i = 0; i < Table->length; i++)
+	for(i = 0; i <= Table->length; i++)
 	{
-		Table->elem[i].falg = false;	//½«ËùÓĞÎ»±êÖ¾Î»Î´Ê¹ÓÃ 
+		Table->elem[i].key  = -999;
+		Table->elem[i].falg = false;	//å°†æ‰€æœ‰ä½æ ‡å¿—ä½æœªä½¿ç”¨ 
 		Table->elem[i].next = NULL;
 	}
 } 
-void HashInsert(HashTable *Table,KeyType key)	//¹şÏ£²åÈë 
+void HashInsert(HashTable *Table,KeyType key)	//å“ˆå¸Œæ’å…¥ 
 {
 	int d;
 	d = Hash(key);
@@ -164,7 +206,7 @@ void HashInsert(HashTable *Table,KeyType key)	//¹şÏ£²åÈë
 	{
 		Table->elem[d].key = key;
 		Table->elem[d].falg = true;
-	} 
+	}
 	else
 	{
 		p = (struct vnode *) malloc (sizeof(struct vnode));
@@ -172,8 +214,8 @@ void HashInsert(HashTable *Table,KeyType key)	//¹şÏ£²åÈë
 		p->next = Table->elem[d].next;
 		Table->elem[d].next = p;
 	}
-} 
-int HashSearch(HashTable *Table,KeyType key)	//¹şÏ£²éÕÒ£¬·µ»Ø1±íÊ¾²éÕÒ³É¹¦£¬·µ»Ø0±íÊ¾²éÕÒÊ§°Ü 
+}
+int HashSearch(HashTable *Table,KeyType key)	//å“ˆå¸ŒæŸ¥æ‰¾ï¼Œè¿”å›1è¡¨ç¤ºæŸ¥æ‰¾æˆåŠŸï¼Œè¿”å›0è¡¨ç¤ºæŸ¥æ‰¾å¤±è´¥ 
 {
 	int d;
 	struct vnode *p;
@@ -189,7 +231,7 @@ int HashSearch(HashTable *Table,KeyType key)	//¹şÏ£²éÕÒ£¬·µ»Ø1±íÊ¾²éÕÒ³É¹¦£¬·µ»Ø
 	}
 	return 0;
 }
-void print_LinearTable(LinearTable *Table)	//Êä³öLinearTable±í²âÊÔº¯Êı 
+void print_LinearTable(LinearTable *Table)	//è¾“å‡ºLinearTableè¡¨æµ‹è¯•å‡½æ•° 
 {
 	int i;
 	for(i = 1; i <= Table->length ;i++)
@@ -197,11 +239,18 @@ void print_LinearTable(LinearTable *Table)	//Êä³öLinearTable±í²âÊÔº¯Êı
 		printf("%d   ",Table->elem[i].key);
 	}
 }
-void print_HashTable(HashTable *Table)		//Êä³öHashTable±í²âÊÔº¯Êı 
+void print_HashTable(HashTable *Table)		//è¾“å‡ºHashTableè¡¨æµ‹è¯•å‡½æ•° 
 {
 	int i;
-	for(i = 1; i <= Table->length ;i++)
+	struct vnode *p;
+	for(i = 0; i <= Table->length ;i++)
 	{
 		printf("%d   ",Table->elem[i].key);
+		p = Table->elem[i].next;
+		while(p != NULL)
+		{
+			printf("%d   ",p->key);
+			p = p->next;
+		} 
 	}
 } 
